@@ -4,25 +4,51 @@ export default {
   data() {
     return {
       activities: [],
+      searchQuery: "",
     };
   },
   async mounted() {
-    const response = await fetch('http://localhost:8080/activities', {
+    const response = await fetch("http://localhost:8080/api/activities", {
       method: "GET",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
     });
     this.activities = await response.json();
-  }
-}
+  },
+  computed: {
+    filteredActivities() {
+      return this.activities.filter((activity) => {
+        return activity.title
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase());
+      });
+    },
+  },
+};
 </script>
 
 <template>
-  <div class="activities__container">
-    {{activities}}
-  </div>
+  <main>
+    <input
+      type="text"
+      v-model="searchQuery"
+      placeholder="Search activities..."
+      class="search-input"
+    />
+    <div class="activities__container">
+      <div
+        class="activities__activity"
+        v-for="activity in filteredActivities"
+        :key="activity.id"
+      >
+        <h3>{{ activity.title }}</h3>
+        <p>{{ activity.rating }}</p>
+        <p>Price: {{ activity.price }} €</p>
+      </div>
+    </div>
+  </main>
 </template>
 
 <style lang="scss">
@@ -48,12 +74,20 @@ export default {
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
     &:hover {
       border: 1px solid #000;
       box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     }
   }
+}
+.search-input {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 @media screen and (min-width: 768px) {

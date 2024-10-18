@@ -1,32 +1,47 @@
-<script>
-export default {
-  name: "activities-component",
-  data() {
+<script lang="ts">
+import { defineComponent, ref, computed, onMounted } from 'vue';
+
+interface Activity {
+  id: number;
+  title: string;
+  price: number;
+  currency: string;
+  rating: number;
+  specialOffer: boolean;
+}
+
+export default defineComponent({
+  name: 'Activities',
+  setup() {
+    const activities = ref<Activity[]>([]);
+    const searchQuery = ref<string>('');
+
+    const fetchActivities = async () => {
+      const response = await fetch('http://localhost:8080/api/activities', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      activities.value = await response.json();
+    };
+
+    onMounted(fetchActivities);
+
+    const filteredActivities = computed(() => {
+      return activities.value.filter((activity) =>
+        activity.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+      );
+    });
+
     return {
-      activities: [],
-      searchQuery: "",
+      activities,
+      searchQuery,
+      filteredActivities,
     };
   },
-  async mounted() {
-    const response = await fetch("http://localhost:8080/api/activities", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    this.activities = await response.json();
-  },
-  computed: {
-    filteredActivities() {
-      return this.activities.filter((activity) => {
-        return activity.title
-          .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
-      });
-    },
-  },
-};
+});
 </script>
 
 <template>

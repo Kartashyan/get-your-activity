@@ -1,24 +1,27 @@
-<script>
-import Activities from './components/Activities.vue'
+<script setup lang="ts">
+import { ref } from 'vue';
+import Activities from './components/Activities.vue';
 
-export default {
-  name: 'App',
-  components: {
-    Activities
-  },
-}
 </script>
 
 <template>
   <div id="app">
     <h1>Activities</h1>
-    <Activities :activities="activities" />
+    <Activities/>
   </div>
 </template>
 
-<style>
-#app {
-  text-align: center;
-  color: #2c3e50;
+<style scoped>
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.vue:hover {
+  filter: drop-shadow(0 0 2em #42b883aa);
 }
 </style>

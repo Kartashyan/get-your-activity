@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { defineComponent, ref, computed, onMounted } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 interface Activity {
   id: number;
@@ -10,49 +11,91 @@ interface Activity {
   specialOffer: boolean;
 }
 
+const route = useRoute();
+const router = useRouter();
+
 const activities = ref<Activity[]>([]);
-const searchQuery = ref<string>("");
+const searchQuery = ref<string | null>(null);
 
-const fetchActivities = async () => {
-  const response = await fetch("http://localhost:8080/api/activities", {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
-  activities.value = await response.json();
-};
+const fetchActivities = (() => {
+  let controller: AbortController | null = null;
 
-onMounted(fetchActivities);
+  return async (query: string) => {
+    if (controller) {
+      controller.abort();
+    }
 
-const filteredActivities = computed(() => {
-  return activities.value.filter((activity) =>
-    activity.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+    controller = new AbortController();
+    const signal = controller.signal;
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/activities?query=${encodeURIComponent(
+          query
+        )}`,
+        { signal }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      activities.value = data;
+    } catch (error: any) {
+      if (error.name === "AbortError") {
+        // Request was aborted, no action needed
+      } else {
+        console.error("Error fetching activities:", error);
+      }
+    } finally {
+      controller = null; // Reset the controller
+    }
+  };
+})();
+
+watch(
+  () => route.query.query,
+  (newQuery) => {
+    searchQuery.value = (newQuery as string) || "";
+    fetchActivities(searchQuery.value);
+  }, { immediate: true }
+);
+
+watch(searchQuery, (newQuery) => {
+  const isFirstSearch = !route.query.query;
+  if (isFirstSearch) {
+    router.push({ query: { query: newQuery } });
+  } else {
+    router.replace({ query: { query: newQuery } });
+  }
 });
 </script>
 
 <template>
-  <main>
+  <div>
     <input
-      type="text"
+      default-value="route.query"
+      class="search-input"
       v-model="searchQuery"
       placeholder="Search activities..."
-      class="search-input"
     />
-    <div class="activities__container">
+    <div class="activities__container" v-if="activities.length">
       <div
-        class="activities__activity"
-        v-for="activity in filteredActivities"
+        v-for="activity in activities"
         :key="activity.id"
+        class="activities__activity"
       >
         <h3>{{ activity.title }}</h3>
-        <p>{{ activity.rating }}</p>
-        <p>Price: {{ activity.price }} €</p>
+        <p>Price: {{ activity.price }} {{ activity.currency }}</p>
+        <p>Rating: {{ activity.rating }}</p>
+        <p v-if="activity.specialOffer">Special Offer Available!</p>
+        <p>
+          Supplier: {{ activity.supplierName }}, Location:
+          {{ activity.location }}
+        </p>
       </div>
     </div>
-  </main>
+    <p v-else>No activities found.</p>
+  </div>
 </template>
 
 <style lang="scss">

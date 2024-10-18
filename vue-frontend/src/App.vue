@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import Activities from './components/Activities.vue';
-
+//@ts-ignore
+import Activities from "./components/Activities.vue";
 </script>
 
 <template>

@@ -20,11 +20,14 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
+  "vueCompilerOptions": {
+    "target": 3.4
+  },
   "include": [
     "src/**/*.ts",
+    "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "./.dot/**/*.vue",
-    "./dot/**/*.vue"
+    "src/vite-env.d.ts"
   ]
 }

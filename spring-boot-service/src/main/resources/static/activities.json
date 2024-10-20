@@ -124,5 +124,455 @@
     "rating": 4.5,
     "specialOffer": false,
     "supplierId": 2
+  },
+  {
+    "id": 100001,
+    "title": "Berlin Wall Walking Tour",
+    "price": 25,
+    "currency": "$",
+    "rating": 4.7,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100002,
+    "title": "Berlin Nightlife Experience",
+    "price": 45,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100003,
+    "title": "Berlin Street Art Tour",
+    "price": 30,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100004,
+    "title": "Berlin Food Tasting Tour",
+    "price": 50,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100005,
+    "title": "Berlin Historical Bike Tour",
+    "price": 35,
+    "currency": "$",
+    "rating": 4.6,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100006,
+    "title": "Berlin Museum Island Tour",
+    "price": 60,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100007,
+    "title": "Berlin River Cruise",
+    "price": 40,
+    "currency": "$",
+    "rating": 4.7,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100008,
+    "title": "Berlin Segway Tour",
+    "price": 55,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100009,
+    "title": "Berlin Underground Tour",
+    "price": 20,
+    "currency": "$",
+    "rating": 4.5,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100010,
+    "title": "Berlin Zoo Entry Ticket",
+    "price": 15,
+    "currency": "$",
+    "rating": 4.6,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100011,
+    "title": "Berlin Botanical Garden Tour",
+    "price": 18,
+    "currency": "$",
+    "rating": 4.7,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100012,
+    "title": "Berlin Cathedral Entry Ticket",
+    "price": 12,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100013,
+    "title": "Berlin Philharmonic Concert",
+    "price": 70,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100014,
+    "title": "Berlin Beer Tasting Tour",
+    "price": 45,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100015,
+    "title": "Berlin Chocolate Factory Tour",
+    "price": 25,
+    "currency": "$",
+    "rating": 4.7,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100016,
+    "title": "Berlin Christmas Market Tour",
+    "price": 30,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100017,
+    "title": "Berlin Art Gallery Tour",
+    "price": 40,
+    "currency": "$",
+    "rating": 4.6,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100018,
+    "title": "Berlin Science Museum Tour",
+    "price": 35,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100019,
+    "title": "Berlin History Museum Tour",
+    "price": 28,
+    "currency": "$",
+    "rating": 4.7,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100020,
+    "title": "Berlin Ghost Tour",
+    "price": 22,
+    "currency": "$",
+    "rating": 4.5,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100021,
+    "title": "Berlin Street Food Tour",
+    "price": 50,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100022,
+    "title": "Berlin Wine Tasting Tour",
+    "price": 55,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100023,
+    "title": "Berlin Coffee Tasting Tour",
+    "price": 35,
+    "currency": "$",
+    "rating": 4.7,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100024,
+    "title": "Berlin Vegan Food Tour",
+    "price": 40,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100025,
+    "title": "Berlin Photography Tour",
+    "price": 45,
+    "currency": "$",
+    "rating": 4.6,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100026,
+    "title": "Berlin Architecture Tour",
+    "price": 50,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100027,
+    "title": "Berlin Music Festival",
+    "price": 75,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100028,
+    "title": "Berlin Film Festival",
+    "price": 60,
+    "currency": "$",
+    "rating": 4.7,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100029,
+    "title": "Berlin Literature Festival",
+    "price": 35,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100030,
+    "title": "Berlin Theater Performance",
+    "price": 50,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100031,
+    "title": "Berlin Opera Performance",
+    "price": 80,
+    "currency": "$",
+    "rating": 4.6,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100032,
+    "title": "Berlin Ballet Performance",
+    "price": 70,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100033,
+    "title": "Berlin Jazz Concert",
+    "price": 55,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100034,
+    "title": "Berlin Rock Concert",
+    "price": 65,
+    "currency": "$",
+    "rating": 4.7,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100035,
+    "title": "Berlin Pop Concert",
+    "price": 60,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100036,
+    "title": "Berlin Classical Concert",
+    "price": 75,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100037,
+    "title": "Berlin Electronic Music Festival",
+    "price": 50,
+    "currency": "$",
+    "rating": 4.6,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100038,
+    "title": "Berlin Hip Hop Concert",
+    "price": 55,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100039,
+    "title": "Berlin Reggae Concert",
+    "price": 45,
+    "currency": "$",
+    "rating": 4.7,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100040,
+    "title": "Berlin Blues Concert",
+    "price": 50,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100041,
+    "title": "Berlin Folk Music Concert",
+    "price": 40,
+    "currency": "$",
+    "rating": 4.6,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100042,
+    "title": "Berlin Indie Music Concert",
+    "price": 55,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100043,
+    "title": "Berlin Alternative Music Concert",
+    "price": 60,
+    "currency": "$",
+    "rating": 4.7,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100044,
+    "title": "Berlin Punk Rock Concert",
+    "price": 45,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100045,
+    "title": "Berlin Metal Concert",
+    "price": 50,
+    "currency": "$",
+    "rating": 4.6,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100046,
+    "title": "Berlin Country Music Concert",
+    "price": 55,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": true,
+    "supplierId": 2
+  },
+  {
+    "id": 100047,
+    "title": "Berlin World Music Concert",
+    "price": 60,
+    "currency": "$",
+    "rating": 4.7,
+    "specialOffer": false,
+    "supplierId": 200
+  },
+  {
+    "id": 100048,
+    "title": "Berlin Latin Music Concert",
+    "price": 45,
+    "currency": "$",
+    "rating": 4.9,
+    "specialOffer": true,
+    "supplierId": 250
+  },
+  {
+    "id": 100049,
+    "title": "Berlin Salsa Dance Class",
+    "price": 30,
+    "currency": "$",
+    "rating": 4.6,
+    "specialOffer": false,
+    "supplierId": 1
+  },
+  {
+    "id": 100050,
+    "title": "Berlin Tango Dance Class",
+    "price": 35,
+    "currency": "$",
+    "rating": 4.8,
+    "specialOffer": true,
+    "supplierId": 2
   }
 ]

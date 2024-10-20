@@ -17,11 +17,10 @@ public class ActivityController {
     @GetMapping("/activities")
     public ResponseEntity<PaginatedResponse<Activity>> getActivities(
             @RequestParam(name = "query", required = false, defaultValue = "") String query,
-            @RequestParam(name = "hasSpecialOffer", required = false) Boolean hasSpecialOffer,
             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
             @RequestParam(name = "size", required = false, defaultValue = "15") int size) {
         try {
-            PaginatedResponse<Activity> response = activityService.searchActivities(query, hasSpecialOffer, page, size);
+            PaginatedResponse<Activity> response = activityService.searchActivities(query, page, size);
             return ResponseEntity.ok(response);
         } catch (IOException e) {
             throw new RuntimeException(e);

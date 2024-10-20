@@ -1,100 +1,40 @@
+<!-- Activities.vue -->
 <script setup lang="ts">
-import { ref, watch, computed, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useFetchActivities } from "../composables/useFetchActivities";
+import { useWatchSearchParam } from "../composables/useWatchSearchParam";
+import { useInfiniteScroll } from "../composables/useInfiniteScroll";
 
-interface Activity {
-  id: number;
-  title: string;
-  price: number;
-  currency: string;
-  rating: number;
-  specialOffer: boolean;
-}
-
-const route = useRoute();
-const router = useRouter();
-
-const activities = ref<Activity[]>([]);
-const searchQuery = ref<string | null>(null);
-
-const fetchActivities = (() => {
-  let controller: AbortController | null = null;
-
-  return async (query: string) => {
-    if (controller) {
-      controller.abort();
-    }
-
-    controller = new AbortController();
-    const signal = controller.signal;
-
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/activities?query=${encodeURIComponent(
-          query
-        )}`,
-        { signal }
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      activities.value = data;
-    } catch (error: any) {
-      if (error.name === "AbortError") {
-        // Request was aborted, no action needed
-      } else {
-        console.error("Error fetching activities:", error);
-      }
-    } finally {
-      controller = null; // Reset the controller
-    }
-  };
-})();
-
-watch(
-  () => route.query.query,
-  (newQuery) => {
-    searchQuery.value = (newQuery as string) || "";
-    fetchActivities(searchQuery.value);
-  }, { immediate: true }
-);
-
-watch(searchQuery, (newQuery) => {
-  const isFirstSearch = !route.query.query;
-  if (isFirstSearch) {
-    router.push({ query: { query: newQuery } });
-  } else {
-    router.replace({ query: { query: newQuery } });
-  }
-});
+const { searchQuery } = useWatchSearchParam();
+const { activities, loading, error, loadMore, hasMore } = useFetchActivities(searchQuery);
+const { lastItemRef } = useInfiniteScroll(loading, loadMore);
 </script>
 
 <template>
   <div>
     <input
-      default-value="route.query"
       class="search-input"
       v-model="searchQuery"
       placeholder="Search activities..."
     />
     <div class="activities__container" v-if="activities.length">
       <div
-        v-for="activity in activities"
+        v-for="(activity, index) in activities"
         :key="activity.id"
         class="activities__activity"
+        v-bind="{
+          ref: index === activities.length - 1 && hasMore ? lastItemRef : null,
+        }"
       >
         <h3>{{ activity.title }}</h3>
         <p>Price: {{ activity.price }} {{ activity.currency }}</p>
         <p>Rating: {{ activity.rating }}</p>
         <p v-if="activity.specialOffer">Special Offer Available!</p>
-        <p>
-          Supplier: {{ activity.supplierName }}, Location:
-          {{ activity.location }}
-        </p>
+        <!-- Other activity details -->
       </div>
     </div>
-    <p v-else>No activities found.</p>
+    <div v-if="loading">Loading...</div>
+    <div v-if="error">{{ error }}</div>
+    <p v-if="!loading && !activities.length">No activities found.</p>
   </div>
 </template>
 

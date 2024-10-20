@@ -4,11 +4,9 @@ import { useFetchActivities } from "../composables/useFetchActivities";
 import { useWatchSearchParam } from "../composables/useWatchSearchParam";
 import { useInfiniteScroll } from "../composables/useInfiniteScroll";
 
-const { searchQuery, hasSpecialOffer } = useWatchSearchParam();
-const { activities, loading, error, loadMore, hasMore } = useFetchActivities(
-  searchQuery,
-  hasSpecialOffer
-);
+const { searchQuery } = useWatchSearchParam();
+const { activities, loading, error, loadMore, hasMore } =
+  useFetchActivities(searchQuery);
 const { lastItemRef } = useInfiniteScroll(loading, loadMore);
 </script>
 
@@ -20,10 +18,6 @@ const { lastItemRef } = useInfiniteScroll(loading, loadMore);
         v-model="searchQuery"
         placeholder="Search activities..."
       />
-      <label class="special-offer-checkbox">
-        <input type="checkbox" v-model="hasSpecialOffer" />
-        Has Special Offer
-      </label>
     </div>
     <div class="activities__container" v-if="activities.length">
       <div
@@ -34,10 +28,14 @@ const { lastItemRef } = useInfiniteScroll(loading, loadMore);
           ref: index === activities.length - 1 && hasMore ? lastItemRef : null,
         }"
       >
-        <h3>{{ activity.title }}</h3>
+        <div class="activity-header">
+          <h3>{{ activity.title }}</h3>
+          <span v-if="activity.specialOffer" class="special-offer-badge"
+            >Special Offer</span
+          >
+        </div>
         <p>Price: {{ activity.price }} {{ activity.currency }}</p>
         <p>Rating: {{ activity.rating }}</p>
-        <p v-if="activity.specialOffer">Special Offer Available!</p>
         <p>Supplier: {{ activity.supplier.name }}</p>
         <p>
           Location: {{ activity.supplier.city }},
@@ -87,6 +85,7 @@ const { lastItemRef } = useInfiniteScroll(loading, loadMore);
     text-align: left;
     transition: all 0.2s ease-in-out;
     overflow: hidden;
+    position: relative;
     &:hover {
       border: 1px solid #000;
       box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
@@ -97,18 +96,32 @@ const { lastItemRef } = useInfiniteScroll(loading, loadMore);
     p {
       margin: 5px 0;
     }
+    .activity-header {
+      position: relative;
+      width: 100%;
+      .special-offer-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #ff4081;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 5px;
+        font-size: 8px;
+        font-weight: bold;
+      }
+    }
   }
 }
 .search-container {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   margin-bottom: 20px;
   gap: 20px;
-  flex-wrap: wrap;
   position: fixed;
   top: 10px;
-  width: 80%;
+  width: 70%;
   background: linear-gradient(
     45deg,
     rgba(255, 0, 150, 0.5) 0%,

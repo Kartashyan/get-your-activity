@@ -4,14 +4,16 @@ import { useFetchActivities } from "../composables/useFetchActivities";
 import { useWatchSearchParam } from "../composables/useWatchSearchParam";
 import { useInfiniteScroll } from "../composables/useInfiniteScroll";
 
-const { searchQuery } = useWatchSearchParam();
-const hasSpecialOffer = ref(false);
-const { activities, loading, error, loadMore, hasMore } = useFetchActivities(searchQuery, hasSpecialOffer);
+const { searchQuery, hasSpecialOffer } = useWatchSearchParam();
+const { activities, loading, error, loadMore, hasMore } = useFetchActivities(
+  searchQuery,
+  hasSpecialOffer
+);
 const { lastItemRef } = useInfiniteScroll(loading, loadMore);
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <div class="search-container">
       <input
         class="search-input"
@@ -37,16 +39,30 @@ const { lastItemRef } = useInfiniteScroll(loading, loadMore);
         <p>Rating: {{ activity.rating }}</p>
         <p v-if="activity.specialOffer">Special Offer Available!</p>
         <p>Supplier: {{ activity.supplier.name }}</p>
-        <p>Location: {{ activity.supplier.city }}, {{ activity.supplier.country }}</p>
+        <p>
+          Location: {{ activity.supplier.city }},
+          {{ activity.supplier.country }}
+        </p>
       </div>
     </div>
-    <div v-if="loading">Loading...</div>
+
     <div v-if="error">{{ error }}</div>
-    <p v-if="!loading && !activities.length">No activities found.</p>
+    <p v-if="!loading && !activities.length" class="activities__container">
+      No activities found.
+    </p>
   </div>
 </template>
 
 <style lang="scss">
+.container {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 20px;
+}
 .activities {
   &__container {
     display: flex;
@@ -56,7 +72,7 @@ const { lastItemRef } = useInfiniteScroll(loading, loadMore);
     justify-content: center;
     margin: 0 auto;
     max-width: 1200px;
-    padding: 0 20px;
+    padding: 24px;
   }
   &__activity {
     display: flex;
@@ -86,10 +102,22 @@ const { lastItemRef } = useInfiniteScroll(loading, loadMore);
 .search-container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 20px;
   gap: 20px;
   flex-wrap: wrap;
+  position: fixed;
+  top: 10px;
+  width: 80%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 0, 150, 0.5) 0%,
+    rgba(255, 204, 0, 0.5) 100%
+  );
+  backdrop-filter: blur(3px);
+  border-radius: 3px;
+  padding: 10px;
+  z-index: 10;
 }
 .search-input {
   width: 100%;
@@ -106,12 +134,16 @@ const { lastItemRef } = useInfiniteScroll(loading, loadMore);
     margin-right: 5px;
   }
 }
+.loading-inline {
+  font-size: 16px;
+}
+.loading-more {
+  text-align: center;
+  margin: 20px 0;
+}
 
 @media screen and (min-width: 768px) {
   .activities {
-    &__container {
-      padding: 0;
-    }
     &__activity {
       flex: 1 1 calc(33.333% - 40px);
       margin: 10px;

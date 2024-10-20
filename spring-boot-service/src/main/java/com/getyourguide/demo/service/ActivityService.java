@@ -2,13 +2,13 @@ package com.getyourguide.demo.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.getyourguide.demo.Activity;
-import com.getyourguide.demo.PaginatedResponse;
+import com.getyourguide.demo.*;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,8 +16,20 @@ public class ActivityService {
 
     public List<Activity> getAllActivities() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        var fileInputStream = new ClassPathResource("static/activities.json").getInputStream();
-        return objectMapper.readValue(fileInputStream, new TypeReference<List<Activity>>() {});
+
+        var suppliersInputStream = new ClassPathResource("static/suppliers.json").getInputStream();
+        List<Supplier> suppliers = objectMapper.readValue(suppliersInputStream, new TypeReference<List<Supplier>>() {});
+        Map<Long, Supplier> supplierMap = suppliers.stream().collect(Collectors.toMap(Supplier::getId, supplier -> supplier));
+
+        var activitiesInputStream = new ClassPathResource("static/activities.json").getInputStream();
+        List<Activity> activities = objectMapper.readValue(activitiesInputStream, new TypeReference<List<Activity>>() {});
+
+        for (Activity activity : activities) {
+            Supplier supplier = supplierMap.get(activity.getSupplier().getId());
+            activity.setSupplier(supplier);
+        }
+
+        return activities;
     }
 
     private int calculateTotalPages(long totalItems, int size) {

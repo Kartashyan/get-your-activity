@@ -27,8 +27,7 @@ type ResponseData = {
 };
 
 export function useFetchActivities(
-  searchQuery: Ref<string> | string,
-  hasSpecialOffer: Ref<boolean> | boolean
+  searchQuery: Ref<string> | string
 ) {
   const activities = ref<Activity[]>([]);
   const loading = ref(false);
@@ -43,7 +42,6 @@ export function useFetchActivities(
   const loadActivities = async (reset = false) => {
     if (!hasMore.value && !reset) return;
 
-    // Abort previous request if it exists
     if (abortController) {
       abortController.abort();
     }
@@ -54,14 +52,10 @@ export function useFetchActivities(
 
     try {
       const query = toValue(searchQuery);
-      const specialOffer = toValue(hasSpecialOffer);
       const url = new URL(`http://localhost:8080/api/activities`);
       url.searchParams.append("query", query);
       url.searchParams.append("page", page.value.toString());
       url.searchParams.append("size", size.toString());
-      if (specialOffer) {
-        url.searchParams.append("hasSpecialOffer", "true");
-      }
       const response = await fetch(url.toString(), {
         signal: abortController.signal,
       });
@@ -95,7 +89,7 @@ export function useFetchActivities(
   };
 
   watch(
-    [() => toValue(searchQuery), () => toValue(hasSpecialOffer)],
+    () => toValue(searchQuery),
     () => {
       page.value = 1;
       hasMore.value = true;

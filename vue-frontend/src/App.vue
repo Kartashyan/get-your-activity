@@ -5,7 +5,6 @@ import Activities from "./components/Activities.vue";
 
 <template>
   <div id="app">
-    <h1>Activities</h1>
     <Activities/>
   </div>
 </template>

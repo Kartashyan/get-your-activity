@@ -1,5 +1,13 @@
-// useFetchActivities.ts
 import { ref, watch, toValue, Ref } from "vue";
+
+type Supplier = {
+  id: number;
+  name: string;
+  address: string;
+  zip: string;
+  city: string;
+  country: string;
+};
 
 type Activity = {
   id: string;
@@ -8,6 +16,7 @@ type Activity = {
   currency: string;
   rating: number;
   specialOffer: boolean;
+  supplier: Supplier;
 };
 
 type ResponseData = {
@@ -17,7 +26,7 @@ type ResponseData = {
   totalPages: number;
 };
 
-export function useFetchActivities(searchQuery: Ref<string> | string) {
+export function useFetchActivities(searchQuery: Ref<string> | string, hasSpecialOffer: Ref<boolean> | boolean) {
   const activities = ref<Activity[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
@@ -33,9 +42,15 @@ export function useFetchActivities(searchQuery: Ref<string> | string) {
 
     try {
       const query = toValue(searchQuery);
-      const response = await fetch(
-        `http://localhost:8080/api/activities?query=${encodeURIComponent(query)}&page=${page.value}&size=${size}`
-      );
+      const specialOffer = toValue(hasSpecialOffer);
+      const url = new URL(`http://localhost:8080/api/activities`);
+      url.searchParams.append('query', query);
+      url.searchParams.append('page', page.value.toString());
+      url.searchParams.append('size', size.toString());
+      if (specialOffer) {
+        url.searchParams.append('hasSpecialOffer', 'true');
+      }
+      const response = await fetch(url.toString());
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -65,9 +80,8 @@ export function useFetchActivities(searchQuery: Ref<string> | string) {
     loadActivities();
   };
 
-  // Watch for changes in searchQuery to reset activities and fetch new data
   watch(
-    () => toValue(searchQuery),
+    [() => toValue(searchQuery), () => toValue(hasSpecialOffer)],
     () => {
       activities.value = [];
       page.value = 1;

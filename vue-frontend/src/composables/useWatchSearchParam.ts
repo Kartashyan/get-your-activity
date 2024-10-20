@@ -1,4 +1,3 @@
-// useWatchSearchParam.ts
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -8,7 +7,6 @@ export function useWatchSearchParam() {
 
   const searchQuery = ref((route.query.query as string) || "");
 
-  // Update the route's query parameter when searchQuery changes
   watch(
     searchQuery,
     (newQuery) => {
@@ -16,7 +14,6 @@ export function useWatchSearchParam() {
     }
   );
 
-  // Update searchQuery when the route's query parameter changes
   watch(
     () => route.query.query,
     (newQuery) => {

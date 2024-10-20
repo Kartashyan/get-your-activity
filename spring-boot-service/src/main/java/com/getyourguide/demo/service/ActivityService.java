@@ -36,10 +36,11 @@ public class ActivityService {
         return (int) Math.ceil((double) totalItems / size);
     }
 
-    public PaginatedResponse<Activity> searchActivities(String query, int page, int size) throws IOException {
+    public PaginatedResponse<Activity> searchActivities(String query, Boolean hasSpecialOffer, int page, int size) throws IOException {
         List<Activity> activities = getAllActivities();
         List<Activity> filteredActivities = activities.stream()
                 .filter(activity -> activity.getTitle().toLowerCase().contains(query.toLowerCase()))
+                .filter(activity -> hasSpecialOffer == null || activity.isSpecialOffer() == hasSpecialOffer)
                 .collect(Collectors.toList());
 
         long total = filteredActivities.size();

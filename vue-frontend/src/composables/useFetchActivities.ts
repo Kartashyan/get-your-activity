@@ -1,4 +1,4 @@
-import { ref, watch, toValue, Ref } from "vue";
+import { ref, watch, toValue, Ref, onUnmounted } from "vue";
 
 type Supplier = {
   id: number;
@@ -26,17 +26,29 @@ type ResponseData = {
   totalPages: number;
 };
 
-export function useFetchActivities(searchQuery: Ref<string> | string, hasSpecialOffer: Ref<boolean> | boolean) {
+export function useFetchActivities(
+  searchQuery: Ref<string> | string,
+  hasSpecialOffer: Ref<boolean> | boolean
+) {
   const activities = ref<Activity[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
   const page = ref(1);
-  const size = 10; // Adjust as needed
+  const size = 10;
   const totalPages = ref(1);
   const hasMore = ref(true);
 
+  let abortController: AbortController | null = null;
+
   const loadActivities = async (reset = false) => {
-    if (loading.value || (!hasMore.value && !reset)) return;
+    if (!hasMore.value && !reset) return;
+
+    // Abort previous request if it exists
+    if (abortController) {
+      abortController.abort();
+    }
+    abortController = new AbortController();
+
     loading.value = true;
     error.value = null;
 
@@ -44,13 +56,15 @@ export function useFetchActivities(searchQuery: Ref<string> | string, hasSpecial
       const query = toValue(searchQuery);
       const specialOffer = toValue(hasSpecialOffer);
       const url = new URL(`http://localhost:8080/api/activities`);
-      url.searchParams.append('query', query);
-      url.searchParams.append('page', page.value.toString());
-      url.searchParams.append('size', size.toString());
+      url.searchParams.append("query", query);
+      url.searchParams.append("page", page.value.toString());
+      url.searchParams.append("size", size.toString());
       if (specialOffer) {
-        url.searchParams.append('hasSpecialOffer', 'true');
+        url.searchParams.append("hasSpecialOffer", "true");
       }
-      const response = await fetch(url.toString());
+      const response = await fetch(url.toString(), {
+        signal: abortController.signal,
+      });
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -59,16 +73,16 @@ export function useFetchActivities(searchQuery: Ref<string> | string, hasSpecial
       if (reset) {
         activities.value = data.results;
       } else {
-        activities.value = [...activities.value, ...data.results];
+        activities.value.push(...data.results);
       }
 
       totalPages.value = data.totalPages;
-      if (page.value >= totalPages.value) {
-        hasMore.value = false;
-      }
+      hasMore.value = page.value < totalPages.value;
     } catch (err: any) {
-      console.error("Error fetching activities:", err);
-      error.value = err.message;
+      if (err.name !== "AbortError") {
+        console.error("Error fetching activities:", err);
+        error.value = err.message;
+      }
     } finally {
       loading.value = false;
     }
@@ -83,13 +97,18 @@ export function useFetchActivities(searchQuery: Ref<string> | string, hasSpecial
   watch(
     [() => toValue(searchQuery), () => toValue(hasSpecialOffer)],
     () => {
-      activities.value = [];
       page.value = 1;
       hasMore.value = true;
       loadActivities(true);
     },
     { immediate: true }
   );
+
+  onUnmounted(() => {
+    if (abortController) {
+      abortController.abort();
+    }
+  });
 
   return { activities, loading, error, loadMore, hasMore };
 }

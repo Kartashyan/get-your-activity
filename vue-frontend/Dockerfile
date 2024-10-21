@@ -10,4 +10,4 @@ WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY . .
 CMD ["npm", "run", "serve"]
-EXPOSE 8080
+EXPOSE 5173

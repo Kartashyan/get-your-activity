@@ -10,4 +10,4 @@ services:
     build:
       context: vue-frontend
     ports:
-      - "8081:8080"
+      - "8081:5173"

@@ -1,26 +1,27 @@
 import { ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
 
 export function useWatchSearchParam() {
-  const route = useRoute();
-  const router = useRouter();
+  const searchQuery = ref(new URLSearchParams(window.location.hash.slice(1)).get('query') || "");
 
-  const searchQuery = ref((route.query.query as string) || "");
+  window.addEventListener('hashchange', () => {
+    const newQuery = new URLSearchParams(window.location.hash.slice(1)).get('query') || "";
+    if (searchQuery.value !== newQuery) {
+      searchQuery.value = newQuery;
+    }
+  });
 
   watch(
     searchQuery,
     (newQuery) => {
-      router.replace({ query: { ...route.query, query: newQuery || undefined } });
-    }
-  );
-
-  watch(
-    () => route.query.query,
-    (newQuery) => {
-      const newQueryStr = (newQuery as string) || "";
-      if (searchQuery.value !== newQueryStr) {
-        searchQuery.value = newQueryStr;
+      const url = new URL(window.location.href);
+      const params = new URLSearchParams(url.hash.slice(1));
+      if (newQuery) {
+        params.set('query', newQuery);
+      } else {
+        params.delete('query');
       }
+      url.hash = params.toString();
+      history.replaceState(null, '', url.toString());
     }
   );
 

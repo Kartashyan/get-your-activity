@@ -52,7 +52,7 @@ export function useFetchActivities(
 
     try {
       const query = toValue(searchQuery);
-      const url = new URL(`http://localhost:8080/api/activities`);
+      const url = new URL(`/api/activities`, window.location.origin);
       url.searchParams.append("query", query);
       url.searchParams.append("page", page.value.toString());
       url.searchParams.append("size", size.toString());

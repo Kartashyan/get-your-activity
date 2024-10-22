@@ -1,6 +1,8 @@
-package com.getyourguide.demo;
+package com.getyourguide.demo.domain;
 
 import com.fasterxml.jackson.annotation.*;
+import com.getyourguide.demo.Supplier;
+
 import lombok.*;
 
 @Data

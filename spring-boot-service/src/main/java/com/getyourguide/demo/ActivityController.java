@@ -1,5 +1,6 @@
 package com.getyourguide.demo;
 
+import com.getyourguide.demo.domain.Activity;
 import com.getyourguide.demo.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

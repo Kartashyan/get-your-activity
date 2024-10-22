@@ -3,6 +3,7 @@ package com.getyourguide.demo.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.getyourguide.demo.*;
+import com.getyourguide.demo.domain.Activity;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;

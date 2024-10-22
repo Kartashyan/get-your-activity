@@ -11,3 +11,7 @@ services:
       context: vue-frontend
     ports:
       - "8081:5173"
+    depends_on:
+      - spring-boot-app
+    environment:
+      - VITE_API_BASE_URL=http://spring-boot-app:8080

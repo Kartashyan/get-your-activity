@@ -20,7 +20,7 @@ type Activity = {
 };
 
 type ResponseData = {
-  results: Activity[];
+  activities: Activity[];
   next: string | null;
   total: number;
   totalPages: number;
@@ -65,9 +65,9 @@ export function useFetchActivities(
       const data = (await response.json()) as ResponseData;
 
       if (reset) {
-        activities.value = data.results;
+        activities.value = data.activities;
       } else {
-        activities.value.push(...data.results);
+        activities.value.push(...data.activities);
       }
 
       totalPages.value = data.totalPages;

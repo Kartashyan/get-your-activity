@@ -1,4 +1,4 @@
-package com.getyourguide.demo;
+package com.getyourguide.demo.domain;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
